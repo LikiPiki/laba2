@@ -23,7 +23,7 @@ int main() {
         for (char i : line) {
             if (i == '.') {
                 if (checkSentence(phrase, word)) {
-                    cout << "finded" << phrase << endl;
+                    cout << "finded: " << phrase << endl;
                 }
                 phrase = "";
             }
