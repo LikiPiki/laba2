@@ -22,7 +22,6 @@ int main() {
     while (getline(file, line)) {
         for (char i : line) {
             if (i == '.') {
-                cout << "phrase" << phrase << endl;
                 if (checkSentence(phrase, word)) {
                     cout << "finded" << phrase << endl;
                 }
@@ -47,29 +46,26 @@ bool checkSentence(string &line, string &word) {
 
     while (true) {
         st >> subWord;
-        if (st.eof()) {
-            break;
-        }
         string copy = "";
         int k = 0;
         for (char i : subWord) {
-            cout << "copying" << i << endl;
             if (goodRune(i)) {
                 copy = copy + i;
                 k++;
             }
         }
-
-        cout << "\t\t" << copy << endl;
         if (copy == word) {
             return true;
+        }
+        if (st.eof()) {
+            break;
         }
     }
     return false;
 }
 
 bool goodRune(char rune) {
-    string unexpectedSymbols = ",.-=&^%$#@!";
+    string unexpectedSymbols = ",.-=&^%$#@!;";
     for (char unexpectedSymbol : unexpectedSymbols) {
         if (rune == unexpectedSymbol) {
             return false;
