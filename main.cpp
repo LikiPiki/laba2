@@ -1,11 +1,13 @@
 #include <iostream>
 #include <fstream>
+#include <sstream>
 
 using namespace std;
 
 const string filename = "text.txt";
 
-void checkSentence(string line, string word);
+bool checkSentence(string line, string word);
+bool goodRune(char rune);
 
 int main() {
     cout << "Enter a finding world" << endl;
@@ -20,7 +22,9 @@ int main() {
     while (getline(file, line)) {
         for (int i = 0; i < line.size(); ++i) {
             if (line[i] == '.') {
-                checkSentence(phrase, word);
+                if (checkSentence(phrase, word)) {
+                    cout << phrase << endl;
+                }
                 phrase = "";
             }
             else {
@@ -35,6 +39,38 @@ int main() {
     return 0;
 }
 
-void checkSentence(string line, string word) {
+bool checkSentence(string line, string word) {
     // do something here
+    istringstream st(line);
+    string subWord;
+
+    while (true) {
+        st >> subWord;
+        if (st.eof()) {
+            break;
+        }
+        string copy = "";
+        int k = 0;
+        for (int i = 0; i < subWord.size(); ++i) {
+            if (goodRune(subWord[i])) {
+                copy[k] = subWord[i];
+                k++;
+            }
+        }
+
+        if (copy == word) {
+            return true;
+        }
+    }
+    return false;
+}
+
+bool goodRune(char rune) {
+    string unexpectedSymbols = ",.-=&^%$#@!";
+    for (int i = 0; i < unexpectedSymbols.size(); ++i) {
+        if (rune == unexpectedSymbols[i]) {
+            return false;
+        }
+    }
+    return true;
 }
