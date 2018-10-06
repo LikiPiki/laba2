@@ -6,7 +6,7 @@ using namespace std;
 
 const string filename = "text.txt";
 
-bool checkSentence(string line, string word);
+bool checkSentence(string &line, string &word);
 bool goodRune(char rune);
 
 int main() {
@@ -20,15 +20,16 @@ int main() {
     string line;
     string phrase = "";
     while (getline(file, line)) {
-        for (int i = 0; i < line.size(); ++i) {
-            if (line[i] == '.') {
+        for (char i : line) {
+            if (i == '.') {
+                cout << "phrase" << phrase << endl;
                 if (checkSentence(phrase, word)) {
-                    cout << phrase << endl;
+                    cout << "finded" << phrase << endl;
                 }
                 phrase = "";
             }
             else {
-                phrase += line[i];
+                phrase += i;
             }
 
         }
@@ -39,7 +40,7 @@ int main() {
     return 0;
 }
 
-bool checkSentence(string line, string word) {
+bool checkSentence(string &line, string &word) {
     // do something here
     istringstream st(line);
     string subWord;
@@ -51,13 +52,15 @@ bool checkSentence(string line, string word) {
         }
         string copy = "";
         int k = 0;
-        for (int i = 0; i < subWord.size(); ++i) {
-            if (goodRune(subWord[i])) {
-                copy[k] = subWord[i];
+        for (char i : subWord) {
+            cout << "copying" << i << endl;
+            if (goodRune(i)) {
+                copy = copy + i;
                 k++;
             }
         }
 
+        cout << "\t\t" << copy << endl;
         if (copy == word) {
             return true;
         }
@@ -67,8 +70,8 @@ bool checkSentence(string line, string word) {
 
 bool goodRune(char rune) {
     string unexpectedSymbols = ",.-=&^%$#@!";
-    for (int i = 0; i < unexpectedSymbols.size(); ++i) {
-        if (rune == unexpectedSymbols[i]) {
+    for (char unexpectedSymbol : unexpectedSymbols) {
+        if (rune == unexpectedSymbol) {
             return false;
         }
     }
